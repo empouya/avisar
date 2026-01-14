@@ -2,6 +2,12 @@ import { prisma } from '@/lib/prisma';
 import { Post } from '@/generated/prisma/client';
 
 export const PostRepository = {
+    findAll() {
+        return prisma.post.findMany({
+            orderBy: { created_at: 'desc' },
+        });
+    },
+    
     findPublished() {
         return prisma.post.findMany({
             where: { is_published: true },

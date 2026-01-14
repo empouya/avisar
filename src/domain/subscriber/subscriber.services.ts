@@ -1,7 +1,7 @@
 import { SubscriberRepository } from '@/repositories/subscriber.repository';
 
 export const SubscriberService = {
-  async subscribeUser(email: string) {
+  async subscribe(email: string) {
     const existing = await SubscriberRepository.findByEmail(email);
     if (existing) {
       throw new Error('EMAIL_ALREADY_SUBSCRIBED');
@@ -10,7 +10,7 @@ export const SubscriberService = {
     return SubscriberRepository.create({ email });
   },
 
-  async unsubscribeUser(id: string) {
+  async unsubscribe(id: string) {
     return SubscriberRepository.delete(id);
   }
 };

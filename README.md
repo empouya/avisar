@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mirror
 
-## Getting Started
+> **Mirror** is a modern, content-driven web platform built for a local NGO focused on **Environment** and **Water Resource Management**.  
+> It serves as a digital headquarters to showcase impact, share news and events, and build credibility with international funders and partners.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Project Goals
+
+- Present **Major Works** and projects in a clear, credible way
+- Share news and events without friction
+- Capture stakeholder interest via newsletter subscriptions and contact forms
+- Provide a **secure, minimal admin interface** for non-technical staff
+- Maintain a clean, scalable, and production-grade architecture
+
+---
+
+## 🧱 Tech Stack (High Level)
+
+| Area | Technology |
+|----|----|
+| Framework | Next.js (App Router) |
+| Runtime | Node.js (Serverless via Vercel) |
+| Database | PostgreSQL (Supabase) |
+| ORM | Prisma |
+| Authentication | Supabase Auth (Admin only) |
+| Validation | Zod |
+| Styling | Tailwind CSS |
+| CI/CD | GitHub Actions + Vercel |
+| Deployment | Vercel |
+
+---
+
+## 📁 Project Structure (Overview)
+
+```text
+mirror/
+├── src/
+│   ├── app/            # Routing layer (public pages, admin UI, API routes)
+│   ├── components/     # Reusable UI components (presentation only)
+│   ├── domain/         # Business logic (framework-agnostic)
+│   ├── repositories/  # Data access layer (Prisma)
+│   ├── validators/    # Input & request validation schemas
+│   ├── lib/            # Infrastructure utilities (Supabase, Prisma, auth, mailer)
+│   └── config/         # Application & environment configuration
+│
+├── prisma/             # Database schema & migrations
+├── .github/workflows/  # CI/CD pipelines
+├── .env.example        # Environment variable template
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Architectural Principles
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **No business logic in API routes**
+- **No database access outside repositories**
+- **No backend logic in UI components**
+- Clear separation between public and admin surfaces
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This structure ensures the backend is predictable, testable, and easy to extend.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔐 Authentication Model
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Public users: no authentication required
+- Admin users: authenticated via **Supabase Auth**
+- Admin routes and APIs are fully protected
+- Admin UI is hidden from public navigation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🌱 Themes & Design System
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The UI supports two visual themes aligned with the NGO mission:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Water Theme** – clarity, fluidity, trust
+- **Greenery Theme** – growth, sustainability, environment
+
+Theme selection is controlled centrally via backend configuration.
+
+---
+
+## ⚙️ Environment Variables
+
+All required variables are documented in `.env.example`.
+
+- Local development uses `.env`
+- Production variables are configured in **Vercel**
+- Sensitive values are never committed to the repository
+
+---
+
+## 🚀 Deployment (Vercel)
+
+### When Does Deployment Happen?
+
+Deployment typically occurs **after core development is complete**, but can also be done earlier for preview or staging purposes.
+
+A common lifecycle is:
+
+1. Local development
+2. Feature completion
+3. Stabilization & testing
+4. Initial deployment to Vercel
+5. Iterative updates via CI/CD
+
+You do **not** need to deploy at the start of development.
+
+---
+
+### How Deployment Works (High Level)
+
+1. Create a Vercel account
+2. Connect the GitHub repository
+3. Vercel auto-detects Next.js
+4. Configure environment variables in Vercel
+5. Push to the `main` branch
+6. Vercel builds and deploys automatically
+
+Once connected:
+
+- Every push to `main` triggers a new deployment
+- GitHub Actions validates the build
+- Vercel hosts the application using serverless infrastructure
+
+No server management is required.
+
+---
+
+## 🧪 Development Status
+
+Current focus:
+
+- Architecture validation
+- Backend and frontend scaffolding
+- Contract and schema finalization
+
+Implementation proceeds **only after all artifacts are confirmed and frozen**.
+
+---
+
+## 📌 License & Ownership
+
+This project is private and maintained for a specific NGO use case.  
+All rights reserved unless stated otherwise.

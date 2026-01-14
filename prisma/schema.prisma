@@ -12,3 +12,49 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+/**
+ * Represents a public-facing post, news item, or event.
+ * Only published posts are visible to the public.
+ */
+model Post {
+  id           String   @id @default(uuid()) @db.Uuid
+  title        String
+  content      String
+  tags         String[] @default([])
+  image_urls   String[] @default([])
+  admin_id     String   @db.Uuid
+
+  is_published Boolean  @default(false)
+  view_count   Int      @default(0)
+  event_date   DateTime?
+
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([is_published])
+  @@index([event_date])
+}
+
+/**
+ * Represents a newsletter subscriber.
+ * Public users can only create records.
+ */
+model Subscriber {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  subscribed_at DateTime @default(now())
+}
+
+/**
+ * Stores configurable system-level settings.
+ * Currently used for theme selection.
+ */
+model System_Setting {
+  id           String   @id @default(uuid()) @db.Uuid
+  values       String[]
+  active_value String
+  admin_id     String   @db.Uuid
+
+  updated_at   DateTime @updatedAt
+}

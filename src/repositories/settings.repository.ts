@@ -1,6 +1,4 @@
-/* Full version of settings.repository.ts
-   Consistent with the designs defined in the Post repository.
-*/
+
 import { prisma } from '@/lib/prisma';
 import { System_Setting } from '@/generated/prisma/client';
 
@@ -13,10 +11,9 @@ export const SettingsRepository = {
         return prisma.system_Setting.findUnique({ where: { id } });
     },
 
-    // Useful for fetching the active configuration directly
-    findActive() {
-        return prisma.system_Setting.findFirst({
-            orderBy: { updated_at: 'desc' }
+    findByName(name: string) {
+        return prisma.system_Setting.findUnique({
+            where: { name },
         });
     },
 

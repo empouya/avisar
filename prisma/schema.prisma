@@ -52,6 +52,7 @@ model Subscriber {
  */
 model System_Setting {
   id           String   @id @default(uuid()) @db.Uuid
+  name         String   @unique
   values       String[]
   active_value String
   admin_id     String   @db.Uuid

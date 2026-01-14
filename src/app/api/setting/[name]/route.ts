@@ -1,27 +1,32 @@
 import { NextResponse } from 'next/server';
 import { SettingsService } from '@/domain/setting/setting.services';
 
-const THEME_SETTING_NAME = 'theme';
+interface RouteParams {
+    params: {
+        name: string;
+    };
+}
 
-export async function GET() {
+export async function GET(
+    _request: Request,
+    { params }: RouteParams
+) {
     try {
-        const theme = await SettingsService.getActiveValueByName(
-            THEME_SETTING_NAME
-        );
+        const active = await SettingsService.getActiveValueByName(params.name);
 
-        if (!theme) {
+        if (!active) {
             return NextResponse.json(
-                { message: 'Theme not configured' },
+                { message: 'Setting not found' },
                 { status: 404 }
             );
         }
 
         return NextResponse.json(
-            { theme },
+            { active },
             { status: 200 }
         );
     } catch (error) {
-        console.error('GET /api/settings/theme failed:', error);
+        console.error(`GET /api/settings/${params.name} failed:`, error);
 
         return NextResponse.json(
             { message: 'Internal server error' },
